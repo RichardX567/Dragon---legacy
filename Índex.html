@@ -1,0 +1,350 @@
+<!DOCTYPE html>nd
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon's Legacy - RPG Online Completo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Tela de Loading -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="dragon-loader">
+                <i class="fas fa-dragon"></i>
+            </div>
+            <h2>Dragon's Legacy</h2>
+            <p>Carregando o mundo de Erdrea...</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Principal -->
+    <div id="main-menu" class="screen">
+        <div class="menu-header">
+            <h1><i class="fas fa-dragon"></i> DRAGON'S LEGACY</h1>
+            <p class="subtitle">Um RPG Online no estilo Dragon Quest</p>
+        </div>
+        
+        <div class="menu-options">
+            <button id="new-game-btn" class="menu-btn">
+                <i class="fas fa-play"></i> Novo Jogo
+            </button>
+            <button id="load-game-btn" class="menu-btn">
+                <i class="fas fa-download"></i> Carregar Jogo
+            </button>
+            <button id="multiplayer-btn" class="menu-btn">
+                <i class="fas fa-users"></i> Multijogador
+            </button>
+            <button id="options-btn" class="menu-btn">
+                <i class="fas fa-cog"></i> Opções
+            </button>
+            <button id="credits-btn" class="menu-btn">
+                <i class="fas fa-info-circle"></i> Créditos
+            </button>
+        </div>
+        
+        <div class="server-status">
+            <span id="server-indicator" class="online">●</span>
+            <span id="player-count">Jogadores Online: 0</span>
+        </div>
+    </div>
+
+    <!-- Tela de Criação de Personagem -->
+    <div id="character-creation" class="screen hidden">
+        <div class="creation-header">
+            <h2><i class="fas fa-user-plus"></i> Criação de Herói</h2>
+            <p>Escolha sua classe e destine seu futuro</p>
+        </div>
+        
+        <div class="creation-container">
+            <div class="class-selection">
+                <h3>Escolha sua Classe:</h3>
+                <div class="class-grid">
+                    <div class="class-card selected" data-class="warrior">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Guerreiro</h4>
+                        <p>Alta força e defesa</p>
+                    </div>
+                    <div class="class-card" data-class="mage">
+                        <i class="fas fa-hat-wizard"></i>
+                        <h4>Mago</h4>
+                        <p>Poder mágico elevado</p>
+                    </div>
+                    <div class="class-card" data-class="rogue">
+                        <i class="fas fa-user-ninja"></i>
+                        <h4>Ladino</h4>
+                        <p>Agilidade e críticos</p>
+                    </div>
+                    <div class="class-card" data-class="cleric">
+                        <i class="fas fa-pray"></i>
+                        <h4>Clérigo</h4>
+                        <p>Cura e suporte</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="character-stats">
+                <h3>Atributos Iniciais:</h3>
+                <div class="stats-display">
+                    <div class="stat">
+                        <span>Força:</span>
+                        <span id="stat-str">12</span>
+                    </div>
+                    <div class="stat">
+                        <span>Defesa:</span>
+                        <span id="stat-def">10</span>
+                    </div>
+                    <div class="stat">
+                        <span>Agilidade:</span>
+                        <span id="stat-agi">8</span>
+                    </div>
+                    <div class="stat">
+                        <span>Inteligência:</span>
+                        <span id="stat-int">7</span>
+                    </div>
+                    <div class="stat">
+                        <span>Vida Máx:</span>
+                        <span id="stat-maxhp">60</span>
+                    </div>
+                    <div class="stat">
+                        <span>Mana Máx:</span>
+                        <span id="stat-maxmp">30</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="character-name">
+                <h3>Nome do Herói:</h3>
+                <input type="text" id="hero-name" placeholder="Digite seu nome" maxlength="12" value="Herói">
+            </div>
+        </div>
+        
+        <div class="creation-buttons">
+            <button id="confirm-creation" class="btn btn-confirm">
+                <i class="fas fa-check"></i> Confirmar
+            </button>
+            <button id="back-to-menu" class="btn btn-cancel">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </button>
+        </div>
+    </div>
+
+    <!-- Tela Principal do Jogo -->
+    <div id="game-screen" class="screen hidden">
+        <!-- Header do Jogo -->
+        <div class="game-header">
+            <div class="player-info">
+                <span id="player-display-name">Herói</span>
+                <span class="level-badge">Nv. <span id="player-level">1</span></span>
+            </div>
+            
+            <div class="resource-bars">
+                <div class="resource">
+                    <span>HP</span>
+                    <div class="bar-container">
+                        <div class="bar hp-bar" id="hp-bar"></div>
+                        <span class="bar-text" id="hp-text">50/50</span>
+                    </div>
+                </div>
+                <div class="resource">
+                    <span>MP</span>
+                    <div class="bar-container">
+                        <div class="bar mp-bar" id="mp-bar"></div>
+                        <span class="bar-text" id="mp-text">20/20</span>
+                    </div>
+                </div>
+                <div class="resource">
+                    <span>EXP</span>
+                    <div class="bar-container">
+                        <div class="bar exp-bar" id="exp-bar"></div>
+                        <span class="bar-text" id="exp-text">0/100</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-currency">
+                <i class="fas fa-coins"></i>
+                <span id="gold-amount">100</span>
+            </div>
+        </div>
+        
+        <!-- Área Principal -->
+        <div class="game-main-area">
+            <!-- Mapa do Mundo -->
+            <div id="world-map" class="game-section">
+                <div class="map-container">
+                    <div class="map-grid" id="map-grid">
+                        <!-- Grid será gerado via JavaScript -->
+                    </div>
+                    <div class="player-marker" id="player-marker">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <div class="location-info">
+                    <h3 id="current-location">Vila de Início</h3>
+                    <p id="location-desc">Uma vila tranquila onde sua jornada começa.</p>
+                </div>
+            </div>
+            
+            <!-- Painel de Ações -->
+            <div class="action-panel">
+                <div class="action-buttons">
+                    <button class="action-btn explore-btn" data-action="explore">
+                        <i class="fas fa-binoculars"></i> Explorar
+                    </button>
+                    <button class="action-btn inventory-btn" data-action="inventory">
+                        <i class="fas fa-backpack"></i> Inventário
+                    </button>
+                    <button class="action-btn quests-btn" data-action="quests">
+                        <i class="fas fa-scroll"></i> Missões
+                    </button>
+                    <button class="action-btn party-btn" data-action="party">
+                        <i class="fas fa-users"></i> Grupo
+                    </button>
+                    <button class="action-btn save-btn" data-action="save">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                    <button class="action-btn menu-btn" data-action="menu">
+                        <i class="fas fa-bars"></i> Menu
+                    </button>
+                </div>
+                
+                <div class="game-log" id="game-log">
+                    <div class="log-header">
+                        <h4>Diário de Aventura</h4>
+                        <button class="clear-log"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="log-content" id="log-content">
+                        <div class="log-entry system">Bem-vindo ao mundo de Erdrea!</div>
+                        <div class="log-entry system">Use "Explorar" para encontrar aventuras.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Chat Online -->
+        <div class="online-chat">
+            <div class="chat-header">
+                <span>Chat Global</span>
+                <span class="online-count"><i class="fas fa-user"></i> <span id="online-players">1</span></span>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-message system">
+                    <span class="time">[00:00]</span>
+                    <span class="text">Bem-vindo ao chat global!</span>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Digite uma mensagem...">
+                <button id="send-chat"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Batalha -->
+    <div id="battle-modal" class="modal hidden">
+        <div class="modal-content battle-content">
+            <div class="battle-header">
+                <h2><i class="fas fa-skull-crossbones"></i> Encontro de Batalha!</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            
+            <div class="battle-field">
+                <div class="enemy-side">
+                    <div class="enemy-display" id="enemy-display">
+                        <div class="enemy-sprite">
+                            <i class="fas fa-ghost"></i>
+                        </div>
+                        <div class="enemy-info">
+                            <h3 id="enemy-name">Slime Vermelho</h3>
+                            <div class="enemy-hp">
+                                <div class="hp-bar-container">
+                                    <div class="hp-bar enemy-hp-bar" id="enemy-hp-bar"></div>
+                                </div>
+                                <span id="enemy-hp-text">30/30</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="player-side">
+                    <div class="battle-log" id="battle-log">
+                        <!-- Log de batalha aparecerá aqui -->
+                    </div>
+                    
+                    <div class="battle-actions">
+                        <button class="battle-btn attack-btn">
+                            <i class="fas fa-fist-raised"></i> Atacar
+                        </button>
+                        <button class="battle-btn magic-btn">
+                            <i class="fas fa-fire"></i> Magia
+                        </button>
+                        <button class="battle-btn item-btn">
+                            <i class="fas fa-potion"></i> Item
+                        </button>
+                        <button class="battle-btn defend-btn">
+                            <i class="fas fa-shield-alt"></i> Defender
+                        </button>
+                        <button class="battle-btn flee-btn">
+                            <i class="fas fa-running"></i> Fugir
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Inventário -->
+    <div id="inventory-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-backpack"></i> Inventário</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="inventory-tabs">
+                <button class="tab-btn active" data-tab="items">Itens</button>
+                <button class="tab-btn" data-tab="equipment">Equipamento</button>
+                <button class="tab-btn" data-tab="key-items">Itens-chave</button>
+            </div>
+            <div class="inventory-content">
+                <!-- Conteúdo será preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Missões -->
+    <div id="quests-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-scroll"></i> Missões Ativas</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="quests-list" id="quests-list">
+                <!-- Missões serão carregadas aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificações -->
+    <div id="notification-center">
+        <!-- Notificações aparecerão aqui -->
+    </div>
+
+    <!-- Áudio -->
+    <audio id="bg-music" loop>
+        <source src="assets/sounds/background.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="battle-sound">
+        <source src="assets/sounds/battle.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="victory-sound">
+        <source src="assets/sounds/victory.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
